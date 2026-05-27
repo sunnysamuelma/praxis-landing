@@ -98,6 +98,50 @@ const Ambient = () => (
       </span>
       <span>Badge unlocked</span>
     </div>
+    <div className="amb-note an-6">
+      <span className="ic">🏆</span>
+      <span>Rank up · now #1</span>
+    </div>
+    <div className="amb-note an-7">
+      <span className="ic" style={{color:"#a78bfa"}}>⚡</span>
+      <span>+250 XP earned</span>
+    </div>
+
+    {/* hexagons */}
+    <span className="amb-shape amb-hex-1"></span>
+    <span className="amb-shape amb-hex-2"></span>
+    <span className="amb-shape amb-hex-3"></span>
+
+    {/* orbit ring */}
+    <span className="amb-shape amb-orbit-1"><span className="orb-dot"></span></span>
+    <span className="amb-shape amb-orbit-2"><span className="orb-dot"></span></span>
+
+    {/* corner brackets */}
+    <span className="amb-shape amb-bracket-l"></span>
+    <span className="amb-shape amb-bracket-r"></span>
+
+    {/* pixel clusters */}
+    <span className="amb-shape amb-pixel-1"></span>
+    <span className="amb-shape amb-pixel-2"></span>
+
+    {/* crosshair */}
+    <span className="amb-shape amb-crosshair-1"></span>
+
+    {/* floating UI fragments */}
+    <div className="amb-ui amb-xp-bar">
+      <span className="xp-label">XP</span>
+      <span className="xp-track"><span className="xp-fill"></span></span>
+      <span className="xp-val">2,840</span>
+    </div>
+    <div className="amb-ui amb-rank-chip">
+      <span className="rank-n">#3</span>
+      <span className="rank-l">SCHOOL RANK</span>
+    </div>
+    <div className="amb-ui amb-session-timer">
+      <span className="st-dot"></span>
+      <span className="st-val">44:32</span>
+      <span className="st-label">SESSION</span>
+    </div>
 
     {/* slow vertical scanbeam */}
     <div className="amb-beam"></div>
@@ -168,31 +212,61 @@ const Nav = () => {
 };
 
 /* ---------- LIVE LEADERBOARD (extension-shaped) ---------- */
-const Leaderboard = () => {
+const Leaderboard = ({ compact = false }) => {
   const [period, setPeriod] = useState("weekly");
-  // Times are stored as milliseconds — extension format
+  const [leagueSub, setLeagueSub] = useState("grade");
+
   const rows = {
     daily: [
-      { rank: 1, name: "maya.k",   color: "a2", time: 4 * 3600 * 1000 + 12 * 60 * 1000, live: true,  hour: "vanguard" },
-      { rank: 2, name: "jonah_w",  color: "a3", time: 3 * 3600 * 1000 + 48 * 60 * 1000, live: false, hour: null },
-      { rank: 3, name: "you",      color: "a1", time: 3 * 3600 * 1000 + 22 * 60 * 1000, live: true,  hour: null, you: true },
-      { rank: 4, name: "sam.b",    color: "a4", time: 2 * 3600 * 1000 + 41 * 60 * 1000, live: false, hour: null },
-      { rank: 5, name: "riya",     color: "a5", time: 1 * 3600 * 1000 + 58 * 60 * 1000, live: false, hour: "pillar" },
-      { rank: 6, name: "noah.t",   color: "a6", time: 1 * 3600 * 1000 + 12 * 60 * 1000, live: false, hour: null }
+      { rank: 1, name: "wow",               color: "a4", time: 5*3600*1000,               live: true,  badge: "apex" },
+      { rank: 2, name: "you",               color: "a2", time: 1*3600*1000 + 45*60*1000,  live: true,  badge: "centurion", you: true },
+      { rank: 3, name: "pratham.kakanoor",  color: "a3", time: 1*3600*1000,               live: false, badge: "centurion" },
+      { rank: 4, name: "haloglin717",       color: "a5", time: 1*3600*1000,               live: false, badge: "pillar" },
+      { rank: 5, name: "the_khuranaissance",color: "a6", time: 3*60*1000,                 live: false, badge: "centurion" }
     ],
     weekly: [
-      { rank: 1, name: "maya.k",   color: "a2", time: 14 * 3600 * 1000 + 32 * 60 * 1000, live: true,  hour: "vanguard" },
-      { rank: 2, name: "jonah_w",  color: "a3", time: 11 * 3600 * 1000 + 48 * 60 * 1000, live: false, hour: "vanguard" },
-      { rank: 3, name: "you",      color: "a1", time:  9 * 3600 * 1000 + 24 * 60 * 1000, live: true,  hour: null, you: true },
-      { rank: 4, name: "sam.b",    color: "a4", time:  7 * 3600 * 1000 +  0 * 60 * 1000, live: false, hour: null },
-      { rank: 5, name: "riya",     color: "a5", time:  6 * 3600 * 1000 +  6 * 60 * 1000, live: false, hour: "pillar" },
-      { rank: 6, name: "noah.t",   color: "a6", time:  4 * 3600 * 1000 + 18 * 60 * 1000, live: false, hour: null }
+      { rank: 1, name: "wow",               color: "a4", time: 9*3600*1000,               live: true,  badge: "apex" },
+      { rank: 2, name: "jxustin",           color: "a1", time: 3*3600*1000 + 39*60*1000,  live: false, badge: "pillar" },
+      { rank: 3, name: "pratham.kakanoor",  color: "a3", time: 3*3600*1000 +  1*60*1000,  live: false, badge: "centurion" },
+      { rank: 4, name: "javion",            color: "a6", time: 2*3600*1000,               live: false, badge: "pillar" },
+      { rank: 5, name: "you",               color: "a2", time: 1*3600*1000 + 45*60*1000,  live: false, badge: "centurion", you: true },
+      { rank: 6, name: "haloglin717",       color: "a5", time: 1*3600*1000,               live: false, badge: "pillar" },
+      { rank: 7, name: "the_khuranaissance",color: "a6", time: 56*60*1000,                live: false, badge: "centurion" }
     ],
     total: [
-      { rank: 1, name: "maya.k",   color: "a2", time: 142 * 3600 * 1000, live: true,  hour: "centurion" },
-      { rank: 2, name: "jonah_w",  color: "a3", time:  78 * 3600 * 1000, live: false, hour: "pillar" },
-      { rank: 3, name: "sam.b",    color: "a4", time:  64 * 3600 * 1000, live: false, hour: "pillar" },
-      { rank: 7, name: "you",      color: "a1", time:  31 * 3600 * 1000, live: true,  hour: "vanguard", you: true, outOfTop: true }
+      { rank: 1, name: "wow",               color: "a4", time: 285*3600*1000 + 42*60*1000, live: true,  badge: "apex" },
+      { rank: 2, name: "you",               color: "a2", time: 175*3600*1000 + 26*60*1000, live: false, badge: "centurion", you: true },
+      { rank: 3, name: "ABR",              color: "a7", time: 170*3600*1000 + 40*60*1000, live: false, badge: "centurion" },
+      { rank: 4, name: "the_khuranaissance",color: "a6", time: 125*3600*1000 + 27*60*1000, live: false, badge: "centurion" },
+      { rank: 5, name: "pratham.kakanoor", color: "a3", time: 107*3600*1000 + 38*60*1000, live: false, badge: "centurion" },
+      { rank: 6, name: "aryamuntyagali",   color: "a5", time:  78*3600*1000 + 31*60*1000, live: false, badge: "pillar" },
+      { rank: 7, name: "jxustin",          color: "a1", time:  63*3600*1000 + 17*60*1000, live: false, badge: "pillar" }
+    ],
+    streak: [
+      { rank: 1, name: "wow",               color: "a4", streak: 53, live: true  },
+      { rank: 2, name: "presfreedman",      color: "a3", streak: 24, live: false },
+      { rank: 3, name: "the_khuranaissance",color: "a6", streak: 24, live: false },
+      { rank: 4, name: "v.bell.29",         color: "a1", streak:  8, live: false },
+      { rank: 5, name: "neil",              color: "a5", streak:  7, live: false },
+      { rank: 6, name: "acemaster91",       color: "a3", streak:  6, live: false },
+      { rank: 7, name: "ABR",              color: "a7", streak:  5, live: false },
+      { rank: 9, name: "you",              color: "a2", streak:  4, live: false, you: true, outOfTop: true }
+    ]
+  };
+
+  const league = {
+    grade: [
+      { rank: 1, label: "Juniors · 11th",    hours: 142, members: 47, you: false },
+      { rank: 2, label: "Seniors · 12th",    hours: 128, members: 52, you: false },
+      { rank: 3, label: "Sophomores · 10th", hours:  97, members: 38, you: true  },
+      { rank: 4, label: "Freshmen · 9th",    hours:  64, members: 31, you: false }
+    ],
+    school: [
+      { rank: 1, label: "Bellarmine",      hours: 312, members: 89, you: false },
+      { rank: 2, label: "Homestead",       hours: 287, members: 76, you: false },
+      { rank: 3, label: "Mitty",           hours: 241, members: 54, you: true  },
+      { rank: 4, label: "Valley Christian",hours: 198, members: 43, you: false },
+      { rank: 5, label: "Arcadia",         hours: 176, members: 38, you: false }
     ]
   };
 
@@ -203,21 +277,11 @@ const Leaderboard = () => {
     return h > 0 ? `${h}h ${m}m` : `${m}m`;
   };
 
-  const data = rows[period];
-  const inTop = data.filter(r => !r.outOfTop);
-  const outOfTop = data.find(r => r.outOfTop);
-
-  return (
-    <div className="lb-card">
-      <div className="lb-head">
-        <div className="title">{Icon.trophy} Lock-In Leaderboard</div>
-        <div className="lb-tabs">
-          <button className={period === "daily"  ? "active" : ""} onClick={() => setPeriod("daily")}>Daily</button>
-          <button className={period === "weekly" ? "active" : ""} onClick={() => setPeriod("weekly")}>Weekly</button>
-          <button className={period === "total"  ? "active" : ""} onClick={() => setPeriod("total")}>All-Time</button>
-        </div>
-      </div>
-      <div className="lb-body">
+  const renderRows = (data) => {
+    const inTop = data.filter(r => !r.outOfTop);
+    const out   = data.find(r => r.outOfTop);
+    return (
+      <>
         {inTop.map((r) => {
           const medal = r.rank === 1 ? "🥇" : r.rank === 2 ? "🥈" : r.rank === 3 ? "🥉" : `#${r.rank}`;
           return (
@@ -228,37 +292,90 @@ const Leaderboard = () => {
                 <span className="lb-name">
                   {r.name}
                   {r.you && <span className="you-tag">YOU</span>}
-                  {r.hour && <span className={`hour-badge ${r.hour}`}>{r.hour.toUpperCase()}</span>}
+                  {r.badge && <span className={`hour-badge ${r.badge}`}>{r.badge.toUpperCase()}</span>}
                 </span>
               </div>
               <div className="lb-time">
-                {fmt(r.time)}
-                {r.live && <span className="ago">● locked in now</span>}
+                {period === "streak"
+                  ? <><span className="streak-fire">🔥</span>{r.streak}d</>
+                  : fmt(r.time)}
+                {r.live && <span className="ago">● now</span>}
               </div>
             </div>
           );
         })}
-        {outOfTop && (
+        {out && (
           <>
             <div className="lb-sep"><span>YOUR RANK</span></div>
-            <div className={`lb-entry current-user`}>
+            <div className="lb-entry current-user">
               <div className="lb-left">
-                <span className="lb-medal rank-n">#{outOfTop.rank}</span>
-                <span className={`lb-av ${outOfTop.color}`}>{outOfTop.name[0].toUpperCase()}</span>
+                <span className="lb-medal rank-n">#{out.rank}</span>
+                <span className={`lb-av ${out.color}`}>{out.name[0].toUpperCase()}</span>
                 <span className="lb-name">
-                  {outOfTop.name}
-                  <span className="you-tag">YOU</span>
-                  {outOfTop.hour && <span className={`hour-badge ${outOfTop.hour}`}>{outOfTop.hour.toUpperCase()}</span>}
+                  {out.name}<span className="you-tag">YOU</span>
+                  {out.badge && <span className={`hour-badge ${out.badge}`}>{out.badge.toUpperCase()}</span>}
                 </span>
               </div>
               <div className="lb-time">
-                {fmt(outOfTop.time)}
-                {outOfTop.live && <span className="ago">● locked in now</span>}
+                {period === "streak"
+                  ? <><span className="streak-fire">🔥</span>{out.streak}d</>
+                  : fmt(out.time)}
+                {out.live && <span className="ago">● now</span>}
               </div>
             </div>
           </>
         )}
+      </>
+    );
+  };
+
+  return (
+    <div className="lb-card">
+      <div className="lb-head">
+        <div className="title">{Icon.trophy} Lock-In Leaderboard</div>
+        <div className="lb-tabs">
+          <button className={period === "daily"  ? "active" : ""} onClick={() => setPeriod("daily")}>Daily</button>
+          <button className={period === "weekly" ? "active" : ""} onClick={() => setPeriod("weekly")}>Weekly</button>
+          <button className={period === "total"  ? "active" : ""} onClick={() => setPeriod("total")}>All-Time</button>
+          {!compact && <button className={period === "streak" ? "active" : ""} onClick={() => setPeriod("streak")}>🔥 Streak</button>}
+          {!compact && (
+            <button className={`lb-league-tab ${period === "league" ? "active" : ""}`} onClick={() => setPeriod("league")}>
+              League <span className="lb-new-pip">NEW</span>
+            </button>
+          )}
+        </div>
       </div>
+
+      {period === "league" ? (
+        <>
+          <div className="lb-sprint-subtabs">
+            <button className={leagueSub === "grade"  ? "active" : ""} onClick={() => setLeagueSub("grade")}>🎓 Grade Wars</button>
+            <button className={leagueSub === "school" ? "active" : ""} onClick={() => setLeagueSub("school")}>🏫 School</button>
+          </div>
+          <div className="lb-body">
+            {league[leagueSub].map((g) => {
+              const medal = g.rank === 1 ? "🥇" : g.rank === 2 ? "🥈" : g.rank === 3 ? "🥉" : `#${g.rank}`;
+              return (
+                <div key={g.rank} className={`lb-entry lb-group-entry ${g.you ? "current-user" : ""}`}>
+                  <div className="lb-left">
+                    <span className={`lb-medal ${g.rank > 3 ? "rank-n" : ""}`}>{medal}</span>
+                    <span className="lb-group-icon">{leagueSub === "grade" ? "🎓" : "🏫"}</span>
+                    <span className="lb-name">
+                      {g.label}
+                      {g.you && <span className="you-tag">YOU</span>}
+                      <span className="lb-members">{g.members} members</span>
+                    </span>
+                  </div>
+                  <div className="lb-time">{g.hours}h</div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      ) : (
+        <div className="lb-body">{renderRows(rows[period])}</div>
+      )}
+
       <div className="lb-foot">
         <a className="arr" href={CHROME_STORE_URL + "?utm_source=landing_leaderboard"} target="_blank" rel="noreferrer">Install to see your real board →</a>
       </div>
@@ -328,7 +445,7 @@ const Hero = () => (
         </div>
       </div>
       <div className="hero-side">
-        <Leaderboard />
+        <Leaderboard compact />
         <div className="float-card fc-xp">
           <span className="icon ic-flame">
             <svg width="34" height="34" viewBox="0 0 64 64" fill="none">
@@ -499,6 +616,37 @@ const Steps = () => {
   );
 };
 
+/* ---------- SHARE CTA ---------- */
+const LANDING_URL = "https://praxis-lime.vercel.app";
+const ShareCTA = () => {
+  const [copied, setCopied] = useState(false);
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Praxis — Turn focus into a game", url: LANDING_URL });
+      } catch {}
+    } else {
+      await navigator.clipboard.writeText(LANDING_URL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2200);
+    }
+  };
+  return (
+    <button className={`share-cta ${copied ? "is-copied" : ""}`} onClick={handleShare}>
+      {copied ? (
+        <>{Icon.check} Link copied!</>
+      ) : (
+        <>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          Send to a friend
+        </>
+      )}
+    </button>
+  );
+};
+
 /* ---------- LEADERBOARD DEEP DIVE (friends/clans) ---------- */
 const ClanCard = () => (
   <div className="clan-card">
@@ -552,17 +700,16 @@ const FriendsSection = () => {
       <div className="container">
         <div className="feature-split">
           <div className="feature-copy">
-            <span className="section-num">03 · FRIENDS &amp; CLANS</span>
+            <span className="section-num">03 · FRIENDS &amp; LEADERBOARDS</span>
             <h3 style={{marginTop: 12}}>Your friends are <span className="grad-text">locking in</span>. Right now.</h3>
-            <p>Add friends with a code. Join a clan with your study group. The leaderboard updates live — and your rank moves the second a friend starts a session.</p>
+            <p>Compete against them on the leaderboards.</p>
             <ul className={`feature-bullets ${inView ? "is-in" : ""}`}>
-              <li><span className="pin">{Icon.check}</span><span><strong>Friend-only by default.</strong> No randoms. No global noise.</span></li>
-              <li><span className="pin">{Icon.check}</span><span><strong>Clan rankings.</strong> Your group vs. theirs, by combined hours.</span></li>
-              <li><span className="pin">{Icon.check}</span><span><strong>Live status.</strong> See who's locked in right now, who's on break, who's slacking.</span></li>
-              <li><span className="pin">{Icon.check}</span><span><strong>Daily, weekly, all-time.</strong> Switch the lens. The grind is always visible.</span></li>
+              <li><span className="pin">{Icon.check}</span><span><strong>Daily, weekly, all-time.</strong> The grind is always visible.</span></li>
+              <li><span className="pin">{Icon.check}</span><span><strong>School &amp; Grade rankings.</strong> Your group vs. theirs.</span></li>
             </ul>
+            <ShareCTA />
           </div>
-          <ClanCard />
+          <Leaderboard />
         </div>
       </div>
     </section>
@@ -808,6 +955,52 @@ const Final = () => {
   );
 };
 
+/* ---------- CONTACT ---------- */
+const ContactSection = () => {
+  const [status, setStatus] = useState("idle");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch("https://formspree.io/f/mjgzppoo", {
+        method: "POST",
+        body: new FormData(e.target),
+        headers: { Accept: "application/json" }
+      });
+      if (res.ok) { setStatus("success"); e.target.reset(); }
+      else setStatus("error");
+    } catch { setStatus("error"); }
+  };
+  return (
+    <section className="contact-section">
+      <div className="container">
+        <div className="contact-inner">
+          <div className="contact-copy">
+            <span className="section-num">07 · GET IN TOUCH</span>
+            <h3>Have a question<br/>or suggestion?</h3>
+            <p>We're students building for students.<br/>Reach out — we actually read these.</p>
+          </div>
+          <form className="contact-form" onSubmit={handleSubmit}>
+            <div className="cf-row">
+              <input  name="name"    type="text"  placeholder="Name"    required className="cf-input" />
+              <input  name="email"   type="email" placeholder="Email"   required className="cf-input" />
+            </div>
+            <textarea name="message" placeholder="Your message..." required className="cf-input cf-textarea" rows={4} />
+            {status === "success" ? (
+              <div className="cf-success">✓ Sent! We'll get back to you soon.</div>
+            ) : (
+              <button type="submit" className="cf-submit" disabled={status === "sending"}>
+                {status === "sending" ? "Sending…" : <>Send Message {Icon.arrow}</>}
+              </button>
+            )}
+            {status === "error" && <p className="cf-error">Something went wrong — email us directly at praxisfocus.mp4@gmail.com</p>}
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 /* ---------- FOOTER ---------- */
 const Footer = () => (
   <footer className="foot">
@@ -838,6 +1031,7 @@ const App = () => (
     <StreakBand />
     <Testimonials />
     <Final />
+    <ContactSection />
     <Footer />
   </div>
 );
